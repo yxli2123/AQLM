@@ -154,6 +154,11 @@ def quantize_aq(model: PreTrainedModel, dataloader: Iterable, args: Namespace):
     assert not torch.backends.cuda.matmul.allow_tf32
     print("\nStarting AQ quantization ...")
     inps, forward_args = get_inps(model, dataloader, args)
+    print(inps)
+    print(len(inps))
+    for inp in inps:
+        print(inp.shape)
+    
     outs = [torch.zeros_like(inp_tensor, pin_memory=inp_tensor.is_pinned()) for inp_tensor in inps]
     num_codebooks = args.num_codebooks
     use_cache = model.config.use_cache
